@@ -40,6 +40,9 @@ spec:
         - name: storage
           mountPath: /storage
           readOnly: false
+        - name: ssh-key
+          mountPath: /root/.ssh
+          readOnly: false
       dnsPolicy: ClusterFirst
       restartPolicy: Always
       schedulerName: default-scheduler
@@ -58,3 +61,7 @@ spec:
       - name: storage
         persistentVolumeClaim:
           claimName: data-kafka-certification
+      - name: ssh-key
+        secret:
+          secretName: kafka-certification-ssh-key
+          defaultMode: 0400

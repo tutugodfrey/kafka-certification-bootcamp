@@ -8,7 +8,7 @@ data:
     export DEBIAN_FRONTEND=noninteractive
     apt-get update && apt-get install -y lsb-release && apt-get clean all;
     apt update -y;
-    apt install curl vim wget gpg tar git jq maven -y;
+    apt install curl vim wget gpg tar git jq maven zip -y;
     apt install redis postgresql -y;
     
     apt update -y;
@@ -71,21 +71,13 @@ data:
     apt-get update
     apt-get install -y mongodb-org
 
-    # mssql 
-    curl https://packages.microsoft.com/keys/microsoft.asc | tee /etc/apt/trusted.gpg.d/microsoft.asc
-    curl https://packages.microsoft.com/config/ubuntu/22.04/prod.list | tee /etc/apt/sources.list.d/mssql-release.list
-    apt update
-    apt-get install mssql-tools18 unixodbc-dev -y
-    echo 'export PATH="$PATH:/opt/mssql-tools18/bin"' >> ~/.bash_profile
-    echo 'export PATH="$PATH:/opt/mssql-tools18/bin"' >> ~/.bashrc
-
     # Conflient cli 
     mkdir -p /etc/apt/keyrings
     curl https://packages.confluent.io/confluent-cli/deb/archive.key | gpg --dearmor -o /etc/apt/keyrings/confluent-cli.gpg
     chmod go+r /etc/apt/keyrings/confluent-cli.gpg
     echo "deb [signed-by=/etc/apt/keyrings/confluent-cli.gpg] https://packages.confluent.io/confluent-cli/deb stable main" | tee /etc/apt/sources.list.d/confluent-cli.list >/dev/null
     apt update
-    apt install confluent-cli
+    apt install confluent-cli -y
 
     # Install terraform
     apt-get update && apt-get install -y gnupg software-properties-common
@@ -93,7 +85,7 @@ data:
     gpg --no-default-keyring --keyring /usr/share/keyrings/hashicorp-archive-keyring.gpg --fingerprint
     echo "deb [signed-by=/usr/share/keyrings/hashicorp-archive-keyring.gpg] https://apt.releases.hashicorp.com $(lsb_release -cs) main" | tee /etc/apt/sources.list.d/hashicorp.list
     apt update
-    apt-get install terraform
+    apt-get install terraform -y
     terraform -install-autocomplete
 
     # Install AWS Cli
@@ -101,6 +93,6 @@ data:
     unzip awscliv2.zip
     ./aws/install
 
-
-
+    # Clone the repository to track this project
+    GIT_SSH_COMMAND="ssh -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no" git clone ssh://git@github.com/tutugodfrey/kafka-certification-bootcamp.git /storage/kafka-certification-bootcamp
 
